@@ -1,0 +1,12 @@
+/*copyright*/
+
+.title
+{
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: #55febb
+}
+
+.unity-list-view__empty-label {
+    display: none;
+}

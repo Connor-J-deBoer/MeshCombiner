@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Label tabindex="-1" text="Mesh Combiner" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: middle-center; font-size: 32px;" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 300px; min-height: 25px;">
+        <ui:Button text="Combine" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button" style="max-width: none; width: 35%;" />
+        <ui:ListView focusable="true" name="SelectedList" reorder-mode="Animated" show-border="false" reorderable="true" style="width: 65%;" />
+    </ui:VisualElement>
+    <uie:ObjectField label="Destination" name="Path" />
+</ui:UXML>

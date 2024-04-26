@@ -1,0 +1,14 @@
+{
+  "displayName": "Mesh Combiner",
+  "author": "Connor deBoer",
+  "version": "0.0.1",
+  "name": "com.connor.mesh-combiner",
+  "documentationUrl": "",
+  "changelogUrl": "https://github.com/Connor-J-deBoer/MeshCombiner/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/Connor-J-deBoer/MeshCombiner/blob/main/LICENSE.md",
+  "description": "Adds a new editor window to combine the mesh and generate a new material for the new mesh",
+  "unity": "2022.3",
+  "dependencies": {
+  },
+  "samples": []
+}
