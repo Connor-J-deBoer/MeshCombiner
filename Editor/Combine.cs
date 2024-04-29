@@ -73,7 +73,7 @@ public class Combine
         }
 
         // Calculate new UVs
-        Vector2[] meshUvs = new Vector2[_combinedMesh.vertices.Length];
+        Vector2[] meshUVs = new Vector2[_combinedMesh.vertices.Length];
 
         Rect offset;
         for (int i = 0; i < _filters.Length; ++i)
@@ -83,12 +83,12 @@ public class Combine
             {
                 float x = (_filters[i].sharedMesh.uv[j].x * offset.width) + offset.x;
                 float y = (_filters[i].sharedMesh.uv[j].y * offset.height) + offset.y;
-                meshUvs[i] = new Vector2(x, y);
+                meshUVs[i] = new Vector2(x, y);
             }
         }
 
         // Apply new UVs
-        _combinedMesh.uv = meshUvs;
+        _combinedMesh.uv = meshUVs;
     }
 
     private void GenerateMaterials()
