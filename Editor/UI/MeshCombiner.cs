@@ -1,9 +1,10 @@
+// Copyright © Connor deBoer 2024, All Rights Reserved
+
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 public class MeshCombiner : EditorWindow
@@ -27,9 +28,11 @@ public class MeshCombiner : EditorWindow
         VisualElement labelFromUXML = m_VisualTreeAsset.Instantiate();
         root.Add(labelFromUXML);
 
+        TextField name = root.Q<TextField>("CombinedName");
         ObjectField pathFolder = root.Q<ObjectField>("Path");
         ListView selectedList = root.Q<ListView>("SelectedList");
         Button button = root.Q<Button>("Button");
+
 
         pathFolder.objectType = typeof(DefaultAsset);
 
@@ -47,20 +50,12 @@ public class MeshCombiner : EditorWindow
 
         button.clicked += () =>
         {
-            try
-            {
-                if (selectedObjects.Count < 2) throw new System.Exception("Need more than one object");
-                foreach (GameObject selectedObject in selectedObjects)
-                {
+            if (selectedObjects.Count == 0) throw new System.Exception("No Objects Selected");
+            string path = AssetDatabase.GetAssetPath(pathFolder.value.GetInstanceID());
+            Combine combiner = new Combine($"{path}/{name.text}", selectedObjects);
 
-                }
-                string path = AssetDatabase.GetAssetPath(pathFolder.value.GetInstanceID());
-                Debug.Log(path);
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError(e);
-            }
+            combiner.CombineMesh();
+            combiner.CombineTexture();
         };
     }
 }

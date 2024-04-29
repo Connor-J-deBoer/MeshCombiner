@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Label tabindex="-1" text="Mesh Combiner" parse-escape-sequences="true" display-tooltip-when-elided="true" style="font-size: 30px; -unity-text-align: middle-center;" />
+    <ui:VisualElement style="flex-grow: 1; flex-direction: row; min-width: 0; width: 100%; height: 100%; min-height: 0;">
+        <ui:Button text="Combine" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button" style="width: 35%;" />
+        <ui:ListView focusable="true" name="SelectedList" style="width: 65%; min-width: 0; min-height: 0; max-height: none;" />
+    </ui:VisualElement>
+    <uie:ObjectField label="File Destination" name="Path" />
+    <ui:TextField picking-mode="Ignore" label="Combined Mesh Name" value="Untitled" name="CombinedName" />
+</ui:UXML>
