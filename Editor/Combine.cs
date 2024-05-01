@@ -37,6 +37,7 @@ public class Combine
         }
 
         _combinedMesh = new Mesh();
+        _combinedMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         _combinedMesh.CombineMeshes(combine);
 
         SaveAssets.SaveFile($"{_path}_Mesh.asset", _combinedMesh);
@@ -44,19 +45,23 @@ public class Combine
 
     public void CombineTexture()
     {
-        int originalSize = _renderer[0].sharedMaterial.mainTexture.width;
-        int powerOfTwo = GetTextureSize(_renderer);
-        int size = powerOfTwo * originalSize;
-
+        int width = 0;
+        int height = 0;
         HashSet<Texture2D> baseMaps = new HashSet<Texture2D>();
-        Texture2D combinedBaseMap = new Texture2D(size, size, TextureFormat.ARGB32, false);
 
         for (int i = 0; i < _renderer.Length; ++i)
         {
-            baseMaps.Add((Texture2D)_renderer[i].sharedMaterial.mainTexture);
+            Texture2D texture = (Texture2D)_renderer[i].sharedMaterial.mainTexture;
+            baseMaps.Add(texture);
         }
 
-        Rect[] uvCoordinates = combinedBaseMap.PackTextures(baseMaps.ToArray(), 0, size);
+        width = baseMaps.Sum(texture => texture.width);
+        height = baseMaps.Sum(texture => texture.height);
+
+        Debug.Log($"Width: {width}, Height: {height}, total textures: {baseMaps.Count}");
+
+        Texture2D combinedBaseMap = new Texture2D(width, height, TextureFormat.ARGB32, false);
+        Rect[] uvCoordinates = combinedBaseMap.PackTextures(baseMaps.ToArray(), 0, width);
 
         SaveAssets.SaveFile($"{_path}_Base.png", combinedBaseMap);
 
@@ -73,6 +78,7 @@ public class Combine
         }
 
         // Calculate new UVs
+        int uvCount = 0;
         Vector2[] meshUVs = new Vector2[_combinedMesh.vertices.Length];
 
         Rect offset;
@@ -83,7 +89,8 @@ public class Combine
             {
                 float x = (_filters[i].sharedMesh.uv[j].x * offset.width) + offset.x;
                 float y = (_filters[i].sharedMesh.uv[j].y * offset.height) + offset.y;
-                meshUVs[i] = new Vector2(x, y);
+                meshUVs[uvCount] = new Vector2(x, y);
+                ++uvCount;
             }
         }
 
