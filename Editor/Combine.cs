@@ -58,13 +58,12 @@ public class Combine
         width = baseMaps.Sum(texture => texture.width);
         height = baseMaps.Sum(texture => texture.height);
 
-        Debug.Log($"Width: {width}, Height: {height}, total textures: {baseMaps.Count}");
-
         Texture2D combinedBaseMap = new Texture2D(width, height, TextureFormat.ARGB32, false);
         Rect[] uvCoordinates = combinedBaseMap.PackTextures(baseMaps.ToArray(), 0, width);
 
         SaveAssets.SaveFile($"{_path}_Base.png", combinedBaseMap);
 
+        GenerateMaterials();
         UpdateUV(uvCoordinates, baseMaps);
     }
 
@@ -100,18 +99,11 @@ public class Combine
 
     private void GenerateMaterials()
     {
+        Material material = new Material(Shader.Find("HDRP/Lit"));
+        Texture2D texture = (Texture2D)AssetDatabase.LoadAssetAtPath(SaveAssets.Rearrange($"{_path}_Base.png")[1], typeof(Texture2D));
+        Debug.Log(texture);
+        material.mainTexture = texture;
 
-    }
-
-    private int GetTextureSize(MeshRenderer[] renderer)
-    {
-        HashSet<Texture2D> textures = new HashSet<Texture2D>();
-        // loop through all the textures in an object and only add unique ones
-        for (int i = 0; i < renderer.Length; ++i)
-        {
-            textures.Add((Texture2D)renderer[i].sharedMaterial.mainTexture);
-        }
-
-        return Mathf.NextPowerOfTwo(textures.Count);
+        SaveAssets.SaveFile($"{_path}_Material.mat", material);
     }
 }
