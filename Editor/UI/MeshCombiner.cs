@@ -32,7 +32,7 @@ public class MeshCombiner : EditorWindow
         ObjectField pathFolder = root.Q<ObjectField>("Path");
         ListView selectedList = root.Q<ListView>("SelectedList");
         Button button = root.Q<Button>("Button");
-
+        Toggle createNew = root.Q<Toggle>("CreateNew");
 
         pathFolder.objectType = typeof(DefaultAsset);
 
@@ -56,6 +56,7 @@ public class MeshCombiner : EditorWindow
 
             combiner.CombineMesh();
             combiner.CombineTexture();
+            if (createNew.value) combiner.CreateNewObject();
         };
     }
 }

@@ -6,4 +6,5 @@
     </ui:VisualElement>
     <uie:ObjectField label="File Destination" name="Path" />
     <ui:TextField picking-mode="Ignore" label="Combined Mesh Name" value="Untitled" name="CombinedName" />
+    <ui:Toggle label="Generate New GameObject" name="CreateNew" tooltip="When True, Creates a new GameObject with the new Mesh and Material" />
 </ui:UXML>

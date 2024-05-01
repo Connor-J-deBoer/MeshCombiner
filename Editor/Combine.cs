@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class Combine
 {
@@ -67,6 +68,26 @@ public class Combine
         UpdateUV(uvCoordinates, baseMaps);
     }
 
+    public void CreateNewObject()
+    {
+        string name = _path.Split('/').Last();
+        Type[] components = new Type[2]
+        {
+            typeof(MeshFilter),
+            typeof(MeshRenderer),
+        };
+        GameObject combinedObject = new GameObject(name, components);
+
+        MeshFilter combinedMeshFilter = combinedObject.GetComponent<MeshFilter>();
+        MeshRenderer combinedMeshRenderer = combinedObject.GetComponent<MeshRenderer>();
+
+        Mesh combinedMesh = (Mesh)AssetDatabase.LoadAssetAtPath(SaveAssets.Rearrange($"{_path}_Mesh.asset")[1], typeof(Mesh));
+        Material combinedMaterial = (Material)AssetDatabase.LoadAssetAtPath(SaveAssets.Rearrange($"{_path}_Material.mat")[1], typeof(Material));
+
+        combinedMeshFilter.sharedMesh = combinedMesh;
+        combinedMeshRenderer.sharedMaterial = combinedMaterial;
+    }
+
     private void UpdateUV(Rect[] uvCoordinates, HashSet<Texture2D> baseMaps)
     {
         // Build UV offset table
@@ -101,8 +122,10 @@ public class Combine
     {
         Material material = new Material(Shader.Find("HDRP/Lit"));
         Texture2D texture = (Texture2D)AssetDatabase.LoadAssetAtPath(SaveAssets.Rearrange($"{_path}_Base.png")[1], typeof(Texture2D));
-        Debug.Log(texture);
+
         material.mainTexture = texture;
+
+        HDMaterial.ValidateMaterial(material);
 
         SaveAssets.SaveFile($"{_path}_Material.mat", material);
     }
