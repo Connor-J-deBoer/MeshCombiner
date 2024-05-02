@@ -7,13 +7,19 @@ using UnityEngine;
 
 public static class SaveAssets
 {
-    public static void SaveFile(string path, Object obj)
+    /// <summary>
+    /// Saves combined stuff into it's appropriate file
+    /// </summary>
+    /// <param name="path">the path to the combined folder</param>
+    /// <param name="obj">the object to save into a file</param>
+    internal static void SaveFile(string path, Object obj)
     {
         string[] paths = Rearrange(path);
         string directory = paths[0];
         string completePath = paths[1];
         string directoryPath = paths[2];
         
+        // 
         if (!AssetDatabase.IsValidFolder(directoryPath))
         {
             List<string> splitDirectoryPath = directoryPath.Split('/').ToList();
@@ -22,6 +28,15 @@ public static class SaveAssets
             AssetDatabase.CreateFolder(parentFolder, directory);
         }
         
+        if (obj is GameObject)
+        {
+            GameObject gameObject = (GameObject)obj;
+
+            PrefabUtility.SaveAsPrefabAssetAndConnect(gameObject, completePath, InteractionMode.UserAction);
+
+            return;
+        }
+
         if (obj is Texture2D)
         {
             Texture2D texture = (Texture2D)obj;

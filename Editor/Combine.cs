@@ -30,16 +30,49 @@ public class Combine
     public void CombineMesh()
     {
         CombineInstance[] combine = new CombineInstance[_filters.Length];
+        List<CombineInstance[]> allSubCombines = new List<CombineInstance[]>();
 
         for (int i = 0; i < _gameObjects.Count; ++i)
         {
             combine[i].mesh = _filters[i].sharedMesh;
             combine[i].transform = _filters[i].transform.localToWorldMatrix;
+            
+            if (_filters[i].sharedMesh.subMeshCount != _filters[0].sharedMesh.subMeshCount)
+            {
+                throw new Exception("Not all meshes have same sub mesh count");
+            }
+            
+            if (_filters[0].sharedMesh.subMeshCount > 1)
+            {
+                CombineInstance[] subCombine = new CombineInstance[_filters[0].sharedMesh.subMeshCount];
+                for (int j = 0; j < _filters[0].sharedMesh.subMeshCount; ++j)
+                {
+                    CombineInstance subCombineInstance = new CombineInstance();
+                    subCombineInstance.mesh = _filters[i].sharedMesh;
+                    subCombineInstance.subMeshIndex = j;
+                    subCombineInstance.transform = _filters[i].transform.worldToLocalMatrix;
+                    subCombine[j] = subCombineInstance;
+                }
+                allSubCombines.Add(subCombine);
+            }
         }
 
         _combinedMesh = new Mesh();
         _combinedMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         _combinedMesh.CombineMeshes(combine);
+
+        if (_filters[0].sharedMesh.subMeshCount > 1)
+        {
+            CombineInstance[] finalCombine = new CombineInstance[allSubCombines.Count];
+            for (int i = 0; i < finalCombine.Length; ++i)
+            {
+                finalCombine[i] = new CombineInstance();
+                finalCombine[i].mesh = new Mesh();
+                finalCombine[i].mesh.CombineMeshes(allSubCombines[i]);
+                finalCombine[i].transform = Matrix4x4.identity;
+            }
+            _combinedMesh.CombineMeshes(finalCombine, false);
+        }
 
         SaveAssets.SaveFile($"{_path}_Mesh.asset", _combinedMesh);
     }
@@ -86,6 +119,8 @@ public class Combine
 
         combinedMeshFilter.sharedMesh = combinedMesh;
         combinedMeshRenderer.sharedMaterial = combinedMaterial;
+
+        SaveAssets.SaveFile($"{_path}.prefab", combinedObject);
     }
 
     private void UpdateUV(Rect[] uvCoordinates, HashSet<Texture2D> baseMaps)
