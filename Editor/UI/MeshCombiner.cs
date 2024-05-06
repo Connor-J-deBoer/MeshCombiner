@@ -55,7 +55,7 @@ public class MeshCombiner : EditorWindow
             Combine combiner = new Combine($"{path}/{name.text}", selectedObjects);
 
             combiner.CombineMesh();
-            combiner.CombineTexture();
+            //combiner.CombineTexture();
             if (createNew.value) combiner.CreateNewObject();
         };
     }

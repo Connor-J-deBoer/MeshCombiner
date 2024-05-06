@@ -30,7 +30,6 @@ public class Combine
     public void CombineMesh()
     {
         CombineInstance[] combine = new CombineInstance[_filters.Length];
-        List<CombineInstance[]> allSubCombines = new List<CombineInstance[]>();
 
         for (int i = 0; i < _gameObjects.Count; ++i)
         {
@@ -41,38 +40,33 @@ public class Combine
             {
                 throw new Exception("Not all meshes have same sub mesh count");
             }
-            
-            if (_filters[0].sharedMesh.subMeshCount > 1)
-            {
-                CombineInstance[] subCombine = new CombineInstance[_filters[0].sharedMesh.subMeshCount];
-                for (int j = 0; j < _filters[0].sharedMesh.subMeshCount; ++j)
-                {
-                    CombineInstance subCombineInstance = new CombineInstance();
-                    subCombineInstance.mesh = _filters[i].sharedMesh;
-                    subCombineInstance.subMeshIndex = j;
-                    subCombineInstance.transform = _filters[i].transform.worldToLocalMatrix;
-                    subCombine[j] = subCombineInstance;
-                }
-                allSubCombines.Add(subCombine);
-            }
         }
 
         _combinedMesh = new Mesh();
         _combinedMesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
-        _combinedMesh.CombineMeshes(combine);
 
+        List<CombineInstance[]> subCombine = new List<CombineInstance[]>();
+        CombineInstance[] combineTheSubCombine = new CombineInstance[_filters[0].sharedMesh.subMeshCount];
         if (_filters[0].sharedMesh.subMeshCount > 1)
         {
-            CombineInstance[] finalCombine = new CombineInstance[allSubCombines.Count];
-            for (int i = 0; i < finalCombine.Length; ++i)
+            for (int i = 0; i < _filters[0].sharedMesh.subMeshCount; ++i)
             {
-                finalCombine[i] = new CombineInstance();
-                finalCombine[i].mesh = new Mesh();
-                finalCombine[i].mesh.CombineMeshes(allSubCombines[i]);
-                finalCombine[i].transform = Matrix4x4.identity;
+                subCombine.Add(new CombineInstance[_filters.Length]);
+                for (int j = 0; j < subCombine[i].Length; ++j)
+                {
+                    subCombine[i][j].mesh = _filters[i].sharedMesh;
+                    subCombine[i][j].subMeshIndex = i;
+                    subCombine[i][j].transform = _filters[j].transform.localToWorldMatrix;
+                }
+
+                combineTheSubCombine[i].mesh = new Mesh();
+                combineTheSubCombine[i].mesh.CombineMeshes(subCombine[i]);
+                combineTheSubCombine[i].transform = Matrix4x4.identity;
             }
-            _combinedMesh.CombineMeshes(finalCombine, false);
+            _combinedMesh.CombineMeshes(combineTheSubCombine, false);
         }
+
+        //_combinedMesh.CombineMeshes(combine);
 
         SaveAssets.SaveFile($"{_path}_Mesh.asset", _combinedMesh);
     }
