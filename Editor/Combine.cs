@@ -54,7 +54,7 @@ public class Combine
                 subCombine.Add(new CombineInstance[_filters.Length]);
                 for (int j = 0; j < subCombine[i].Length; ++j)
                 {
-                    subCombine[i][j].mesh = _filters[i].sharedMesh;
+                    subCombine[i][j].mesh = _filters[j].sharedMesh;
                     subCombine[i][j].subMeshIndex = i;
                     subCombine[i][j].transform = _filters[j].transform.localToWorldMatrix;
                 }

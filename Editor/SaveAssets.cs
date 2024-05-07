@@ -19,7 +19,6 @@ public static class SaveAssets
         string completePath = paths[1];
         string directoryPath = paths[2];
         
-        // 
         if (!AssetDatabase.IsValidFolder(directoryPath))
         {
             List<string> splitDirectoryPath = directoryPath.Split('/').ToList();
