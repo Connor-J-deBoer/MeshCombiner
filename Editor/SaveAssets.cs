@@ -1,4 +1,5 @@
-using System.Collections;
+// Copyright © Connor deBoer 2024, All Rights Reserved
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -51,7 +52,7 @@ public static class SaveAssets
     }
 
     /// <summary>
-    /// re arranges a path so that a files parent folder is it's extention name
+    /// re arranges a path so that a files parent folder is it's extension name
     /// </summary>
     /// <param name="path"></param>
     /// <returns>3 strings, 0: new parent folder name, 1: complete rearranged path, 2: path to parent folder</returns>

@@ -10,5 +10,11 @@
   "unity": "2022.3",
   "dependencies": {
   },
-  "samples": []
+  "samples": [
+    {
+      "displayName": "Modular Interior",
+      "description": "An optimized modular interior example",
+      "path": "Samples~/ModularInterior"
+    }
+  ]
 }

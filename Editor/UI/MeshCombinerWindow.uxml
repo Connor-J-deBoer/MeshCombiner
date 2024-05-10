@@ -4,7 +4,8 @@
         <ui:Button text="Combine" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Button" style="width: 35%;" />
         <ui:ListView focusable="true" name="SelectedList" style="width: 65%; min-width: 0; min-height: 0; max-height: none;" />
     </ui:VisualElement>
-    <uie:ObjectField label="File Destination" name="Path" />
+    <uie:ObjectField label="File Destination" name="Path" allow-scene-objects="false" view-data-key="group-ref" />
     <ui:TextField picking-mode="Ignore" label="Combined Mesh Name" value="Untitled" name="CombinedName" />
-    <ui:Toggle label="Generate New GameObject" name="CreateNew" tooltip="When True, Creates a new GameObject with the new Mesh and Material" />
+    <ui:Toggle label="Create New Material" name="CreateNewTexture" value="false" />
+    <ui:Toggle label="Create New Prefab" name="CreateNewPrefab" tooltip="When True, Creates a new GameObject with the new Mesh and Material" />
 </ui:UXML>
