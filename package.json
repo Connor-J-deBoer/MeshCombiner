@@ -1,20 +1,14 @@
 {
   "displayName": "Mesh Combiner",
   "author": "Connor deBoer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "name": "com.connor.mesh-combiner",
-  "documentationUrl": "",
+  "documentationUrl": "https://github.com/Connor-J-deBoer/MeshCombiner/tree/main",
   "changelogUrl": "https://github.com/Connor-J-deBoer/MeshCombiner/blob/main/CHANGELOG.md",
   "licensesUrl": "https://github.com/Connor-J-deBoer/MeshCombiner/blob/main/LICENSE.md",
   "description": "Adds a new editor window to combine the mesh and generate a new material for the new mesh",
   "unity": "2022.3",
   "dependencies": {
   },
-  "samples": [
-    {
-      "displayName": "Modular Interior",
-      "description": "An optimized modular interior example",
-      "path": "Samples~/ModularInterior"
-    }
-  ]
+  "samples": []
 }
