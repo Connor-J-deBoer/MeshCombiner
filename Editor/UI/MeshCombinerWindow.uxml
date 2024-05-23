@@ -6,6 +6,6 @@
     </ui:VisualElement>
     <uie:ObjectField label="File Destination" name="Path" allow-scene-objects="false" />
     <ui:TextField picking-mode="Ignore" label="Combined Mesh Name" value="Untitled" name="CombinedName" />
-    <ui:Toggle label="Create New Material" name="CreateNewTexture" value="false" />
+    <ui:Toggle label="Create New Material" name="CreateNewTexture" value="false" style="display: none;" />
     <ui:Toggle label="Create New Prefab" name="CreateNewPrefab" tooltip="When True, Creates a new GameObject with the new Mesh and Material" />
 </ui:UXML>

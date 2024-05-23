@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
 
 public class Combine
 {
@@ -134,8 +133,6 @@ public class Combine
         Texture2D texture = (Texture2D)AssetDatabase.LoadAssetAtPath(SaveAssets.Rearrange($"{_path}_Base.png")[1], typeof(Texture2D));
 
         material.mainTexture = texture;
-
-        HDMaterial.ValidateMaterial(material);
 
         SaveAssets.SaveFile($"{_path}_Material.mat", material);
     }
